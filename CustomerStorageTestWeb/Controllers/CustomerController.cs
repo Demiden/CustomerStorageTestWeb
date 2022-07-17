@@ -33,6 +33,7 @@ namespace CustomerStorageTestWeb.Controllers
         [SwaggerOperation("Get customer", "Get customer by id")]
         [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(Customer))]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get([FromRoute] Guid customerId)
         {
             var result = await _customersRepository.GetUserById(customerId);
@@ -46,6 +47,7 @@ namespace CustomerStorageTestWeb.Controllers
         [HttpPost("customers")]
         [SwaggerOperation("Add customer", "Add unregistered customer")]
         [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(Guid))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Add(AddCustomerRequest customer)
         {
             var customerId = await _customersRepository.AddCustomer(customer.ConstructCustomer());
@@ -57,6 +59,7 @@ namespace CustomerStorageTestWeb.Controllers
         [SwaggerOperation("Update customer", "Update registered customer")]
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Update(UpdateCustomerRequest customer)
         {
             var result = await _customersRepository.UpdateCustomer(customer.ConstructCustomer());

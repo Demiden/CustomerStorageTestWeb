@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "J7SmJlOQbh536t4bJ+ADjXw8H24SxU4VvV990TRUy6Mep7aLS95+zz75mxdcb/abN/M73vx/yvMQ2/SIf1md0w==",
+  "dgSpecHash": "NzYvR6RnEruJ6jVG6+IwZasQlqCw5ZvdER2AnXM7fj2PYDRhEHJwOb5hXc2cULx43cVHCMxBy4k6Ccn2hX/kGQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\demiden\\RiderProjects\\CustomerStorageTestWeb\\CustomerStorageTestWeb\\CustomerStorageTestWeb.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\demiden\\.nuget\\packages\\fluentvalidation\\11.1.0\\fluentvalidation.11.1.0.nupkg.sha512",
+    "C:\\Users\\demiden\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.1.2\\fluentvalidation.aspnetcore.11.1.2.nupkg.sha512",
+    "C:\\Users\\demiden\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.1.0\\fluentvalidation.dependencyinjectionextensions.11.1.0.nupkg.sha512",
     "C:\\Users\\demiden\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
     "C:\\Users\\demiden\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\demiden\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
