@@ -30,11 +30,6 @@ namespace CustomerStorageTestWeb
                 options.EnableAnnotations();
             });
             
-            services.AddMemoryCache(_ => new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromSeconds(60))
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(300))
-                .SetPriority(CacheItemPriority.Normal));
-            
             var customerStorageSettings = _configuration.GetSection(CustomerStorageSettings.SectionName).Get<CustomerStorageSettings>();
 
             switch (customerStorageSettings.StorageType)
@@ -44,6 +39,10 @@ namespace CustomerStorageTestWeb
                     break;
                 case StorageTypeEnum.Cache:
                     services.AddScoped<ICustomersRepository, CacheCustomerStorage>();
+                    services.AddMemoryCache(_ => new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(60))
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(300))
+                        .SetPriority(CacheItemPriority.Normal));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
