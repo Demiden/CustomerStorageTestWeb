@@ -5,14 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using CustomerStorageTestWeb.Models;
 using CustomerStorageTestWeb.Services.Abstractions;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace CustomerStorageTestWeb.Services
 {
     public class FileCustomerStorage : ICustomersRepository
     {
+        private readonly ILogger<FileCustomerStorage> _logger;
         private const string BasePath = "CustomerStorage";
         private const string FileStorageName = "CustomerStorage.json";
+
+        public FileCustomerStorage(ILogger<FileCustomerStorage> logger)
+        {
+            _logger = logger;
+        }
         public async Task<Customer> GetUserById(Guid customerId)
         {
             var customers = await ReadCustomers();
@@ -95,7 +102,18 @@ namespace CustomerStorageTestWeb.Services
 
             if (File.Exists(path))
             {
-                return JsonConvert.DeserializeObject<List<Customer>>(await File.ReadAllTextAsync(path));
+                List<Customer> result;
+                try
+                {
+                    result = JsonConvert.DeserializeObject<List<Customer>>(await File.ReadAllTextAsync(path));
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error during file deserialization");
+                    throw;
+                }
+                
+                return result;
             }
 
             return new List<Customer>();
