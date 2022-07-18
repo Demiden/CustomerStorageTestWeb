@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CustomerStorageTestWeb.Controllers.Mapping;
@@ -23,15 +24,17 @@ namespace CustomerStorageTestWeb.Controllers
         
         [HttpGet("customers")]
         [SwaggerOperation("Get customers", "Get all customers")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(GetCustomerResponse[]))]
         public async Task<IActionResult> Get()
         {
             var result = await _customersRepository.GetUsers();
-            return Ok(result);
+            
+            return Ok(result.ConstructCustomerResponses().ToArray());
         }
         
         [HttpGet("customers/{customerId:guid}")]
         [SwaggerOperation("Get customer", "Get customer by id")]
-        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(Customer))]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(GetCustomerResponse))]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get([FromRoute] Guid customerId)
@@ -41,7 +44,7 @@ namespace CustomerStorageTestWeb.Controllers
             if (result == null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(result.ConstructCustomerResponse());
         }
         
         [HttpPost("customers")]
@@ -50,7 +53,7 @@ namespace CustomerStorageTestWeb.Controllers
         [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Add(AddCustomerRequest customer)
         {
-            var customerId = await _customersRepository.AddCustomer(customer.ConstructCustomer());
+            var customerId = await _customersRepository.AddCustomer(customer.ConstructCustomerRequest());
 
             return Ok(customerId);
         }
@@ -62,7 +65,7 @@ namespace CustomerStorageTestWeb.Controllers
         [SwaggerResponse((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Update(UpdateCustomerRequest customer)
         {
-            var result = await _customersRepository.UpdateCustomer(customer.ConstructCustomer());
+            var result = await _customersRepository.UpdateCustomer(customer.ConstructCustomerRequest());
 
             if (!result)
                 return NotFound();

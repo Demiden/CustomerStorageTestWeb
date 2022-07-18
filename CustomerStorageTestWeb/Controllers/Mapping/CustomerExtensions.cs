@@ -1,10 +1,12 @@
-﻿using CustomerStorageTestWeb.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CustomerStorageTestWeb.Models;
 
 namespace CustomerStorageTestWeb.Controllers.Mapping
 {
     public static class CustomerExtensions
     {
-        public static Customer ConstructCustomer(this AddCustomerRequest customerRequest)
+        public static Customer ConstructCustomerRequest(this AddCustomerRequest customerRequest)
         {
             return new Customer
             {
@@ -13,7 +15,7 @@ namespace CustomerStorageTestWeb.Controllers.Mapping
             };
         }
         
-        public static Customer ConstructCustomer(this UpdateCustomerRequest customerRequest)
+        public static Customer ConstructCustomerRequest(this UpdateCustomerRequest customerRequest)
         {
             return new Customer
             {
@@ -21,6 +23,21 @@ namespace CustomerStorageTestWeb.Controllers.Mapping
                 City = customerRequest.City,
                 Name = customerRequest.Name
             };
+        }
+
+        public static GetCustomerResponse ConstructCustomerResponse(this Customer customer)
+        {
+            return new GetCustomerResponse()
+            {
+                Id = customer.Id,
+                City = customer.City,
+                Name = customer.Name
+            };
+        }
+        
+        public static IEnumerable<GetCustomerResponse> ConstructCustomerResponses(this IEnumerable<Customer> customers)
+        {
+            return customers.Select(x => x.ConstructCustomerResponse());
         }
     }
 }
